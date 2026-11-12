@@ -14,9 +14,10 @@ import {
   type Fiche,
 } from "@/lib/suivi";
 import { useMe, useSuivi } from "./useSuivi";
+import { WRAP } from "@/lib/ui";
 
 const ctrl =
-  "rounded-md border border-line bg-white px-[9px] py-[7px] text-ink [font:inherit] focus:border-(--a) focus:outline-none";
+  "min-h-11 rounded-md border border-line bg-white px-3 py-2 text-ink [font:inherit] focus:border-(--a) focus:outline-none";
 
 export function Outil({ slug, contacts }: { slug: OutilSlug; contacts: ContactLite[] }) {
   const cfg = OUTILS[slug].cfg;
@@ -99,10 +100,10 @@ export function Outil({ slug, contacts }: { slug: OutilSlug; contacts: ContactLi
   const d = contacts.find((c) => c.ID === cur);
 
   return (
-    <>
-      <div className="no-print flex flex-wrap items-center gap-2 border-b border-line bg-soft px-[18px] py-[10px]">
+    <div className={WRAP}>
+      <div className="no-print -mx-4 flex flex-wrap items-center gap-2 border-b border-line bg-soft px-4 py-[10px] sm:mx-0 sm:mt-3 sm:rounded-md sm:border">
         <input
-          className={`${ctrl} w-[130px]`}
+          className={`${ctrl} w-full sm:w-[140px]`}
           placeholder="Ton prénom"
           aria-label="Ton prénom"
           value={me}
@@ -147,7 +148,7 @@ export function Outil({ slug, contacts }: { slug: OutilSlug; contacts: ContactLi
         />
       </div>
 
-      <div className="flex flex-wrap gap-[14px] px-[18px] py-[10px] text-[13px] text-mut" aria-live="polite">
+      <div className="flex flex-wrap gap-x-[14px] gap-y-1 py-[10px] text-[13px] text-mut" aria-live="polite">
         <span>
           <b className="text-base text-ink">{stats.total}</b> contacts
         </span>
@@ -161,14 +162,27 @@ export function Outil({ slug, contacts }: { slug: OutilSlug; contacts: ContactLi
           <b className="text-base text-ink">{stats.due}</b> relances à faire aujourd&apos;hui
         </span>
       </div>
-      <div className="mx-[18px] h-1.5 rounded-[3px] bg-line" aria-hidden="true">
+      <div className="flex items-baseline justify-between text-xs text-mut">
+        <span id="prog-outil">
+          <b className="text-ink">{stats.touched}</b> contactés sur {stats.total}
+        </span>
+        <span>{stats.total ? Math.round((100 * stats.touched) / stats.total) : 0} %</span>
+      </div>
+      <div
+        className="mt-1 h-2 rounded-full bg-line"
+        role="progressbar"
+        aria-labelledby="prog-outil"
+        aria-valuemin={0}
+        aria-valuemax={stats.total}
+        aria-valuenow={stats.touched}
+      >
         <i
-          className="block h-full rounded-[3px] bg-(--a) transition-[width]"
+          className="block h-full rounded-full bg-(--a) transition-[width]"
           style={{ width: `${stats.total ? (100 * stats.touched) / stats.total : 0}%` }}
         />
       </div>
 
-      <main className="grid items-start gap-[14px] px-[18px] py-[14px] min-[761px]:grid-cols-[minmax(280px,380px)_1fr]">
+      <main className="grid items-start gap-[14px] py-[14px] min-[761px]:grid-cols-[minmax(280px,380px)_1fr]">
         <div
           className="no-print flex flex-col gap-1.5 min-[761px]:max-h-[calc(100vh-230px)] min-[761px]:overflow-auto"
           aria-label="Liste des contacts"
@@ -187,7 +201,7 @@ export function Outil({ slug, contacts }: { slug: OutilSlug; contacts: ContactLi
                 role="listitem"
                 aria-current={on ? "true" : undefined}
                 onClick={() => select(c.ID)}
-                className={`w-full cursor-pointer rounded-md border border-l-4 bg-card px-[10px] py-2 text-left ${
+                className={`min-h-14 w-full cursor-pointer rounded-md border border-l-4 bg-card px-3 py-2.5 text-left ${
                   on ? "border-(--a) shadow-[0_1px_4px_#0002]" : "border-line"
                 } ${win ? "border-l-win" : on ? "border-l-(--a)" : "border-l-line"} ${done ? "opacity-60" : ""}`}
               >
@@ -235,7 +249,7 @@ export function Outil({ slug, contacts }: { slug: OutilSlug; contacts: ContactLi
       >
         {toastMsg}
       </div>
-    </>
+    </div>
   );
 }
 

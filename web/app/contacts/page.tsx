@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { categoryOf, loadContacts, type Contact } from "@/lib/csv";
 import { CATEGORIES } from "@/lib/config";
 import { CsvError, Loading } from "@/components/CsvError";
+import { WRAP } from "@/lib/ui";
 
 export const metadata: Metadata = { title: "Toute la base" };
 
@@ -14,7 +15,7 @@ type Search = { q?: string | string[]; type?: string | string[] };
  */
 export default function ContactsPage({ searchParams }: { searchParams: Promise<Search> }) {
   return (
-    <main className="px-[18px] py-[14px]">
+    <main className={`${WRAP} py-5`}>
       <h1 className="mb-3 font-serif text-2xl font-semibold">Toute la base de prospection</h1>
       <Suspense fallback={<Loading />}>
         <ContactsTable searchParams={searchParams} />
@@ -55,7 +56,7 @@ async function ContactsTable({ searchParams }: { searchParams: Promise<Search> }
   const counts = new Map<string, number>();
   for (const c of res.contacts) counts.set(categoryOf(c.ID), (counts.get(categoryOf(c.ID)) ?? 0) + 1);
 
-  const ctrl = "rounded-md border border-line bg-white px-[9px] py-[7px] text-ink [font:inherit]";
+  const ctrl = "min-h-11 rounded-md border border-line bg-white px-3 py-2 text-ink [font:inherit]";
 
   return (
     <>
@@ -80,7 +81,7 @@ async function ContactsTable({ searchParams }: { searchParams: Promise<Search> }
           Filtrer
         </button>
         {(q || type) && (
-          <a href="/contacts" className="text-sm">
+          <a href="/contacts" className="inline-flex min-h-11 items-center text-sm">
             Réinitialiser
           </a>
         )}

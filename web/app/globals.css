@@ -14,34 +14,49 @@
   --color-salons: #5c0a3a;
   --color-labos: #1f4e5f;
   --color-recyclage: #3d5a2a;
+  --color-matiere: #6b4a1f;
+  --color-financement: #3b3a6b;
 
   --font-serif: Georgia, "Times New Roman", serif;
   --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
-:root {
-  /* Accent par défaut ; chaque outil surcharge --a */
-  --a: #5c0a3a;
-}
+/*
+ * Styles de base dans @layer base : sans couche, ils l'emportaient sur les
+ * utilitaires Tailwind (ex. « a { color } » masquait le texte blanc des boutons).
+ */
+@layer base {
+  :root {
+    /* Accent par défaut ; chaque outil surcharge --a */
+    --a: #5c0a3a;
+  }
 
-html {
-  -webkit-text-size-adjust: 100%;
-}
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
 
-body {
-  margin: 0;
-  background: var(--color-bg);
-  color: var(--color-ink);
-  font: 15px/1.45 var(--font-sans);
-}
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font: 15px/1.45 var(--font-sans);
+  }
 
-a {
-  color: var(--a);
-}
+  a {
+    color: var(--a);
+  }
 
-:focus-visible {
-  outline: 2px solid var(--a);
-  outline-offset: 2px;
+  :focus-visible {
+    outline: 2px solid var(--a);
+    outline-offset: 2px;
+  }
+
+  button,
+  select,
+  input[type="file"] {
+    cursor: pointer;
+  }
 }
 
 @media print {
