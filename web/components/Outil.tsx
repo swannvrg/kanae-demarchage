@@ -385,10 +385,15 @@ function Detail({
         {cfg.questions.map(([label, type]) => {
           const v = f.q[label] ?? "";
           return (
-            <label key={label} className={lbl}>
-              {label}
+            <div key={label} className={lbl}>
+              <span>{label}</span>
               {type.startsWith("choix:") ? (
-                <select className={`${ctrl} w-full`} value={v} onChange={(e) => onQuestion(label, e.target.value)}>
+                <select
+                  aria-label={label}
+                  className={`${ctrl} w-full`}
+                  value={v}
+                  onChange={(e) => onQuestion(label, e.target.value)}
+                >
                   <option value="" />
                   {type
                     .slice(6)
@@ -397,10 +402,40 @@ function Detail({
                       <option key={o}>{o}</option>
                     ))}
                 </select>
+              ) : type.startsWith("choixMultiple:") ? (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {type
+                    .slice("choixMultiple:".length)
+                    .split("|")
+                    .map((option) => {
+                      const selected = v.split(" | ").includes(option);
+                      return (
+                        <label key={option} className="flex items-center gap-1.5 rounded-md border border-line bg-white px-2 py-1.5 text-ink">
+                          <input
+                            aria-label={option}
+                            type="checkbox"
+                            checked={selected}
+                            onChange={(e) => {
+                              const values = new Set(v ? v.split(" | ") : []);
+                              if (e.target.checked) values.add(option);
+                              else values.delete(option);
+                              onQuestion(label, [...values].join(" | "));
+                            }}
+                          />
+                          {option}
+                        </label>
+                      );
+                    })}
+                </div>
               ) : (
-                <input className={`${ctrl} w-full`} value={v} onChange={(e) => onQuestion(label, e.target.value)} />
+                <input
+                  aria-label={label}
+                  className={`${ctrl} w-full`}
+                  value={v}
+                  onChange={(e) => onQuestion(label, e.target.value)}
+                />
               )}
-            </label>
+            </div>
           );
         })}
       </div>
