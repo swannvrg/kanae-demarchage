@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+/* Charte des fichiers HTML KANAE_Demarchage_*.html */
+@theme {
+  --color-bg: #f8f5f0;
+  --color-card: #ffffff;
+  --color-ink: #231a1e;
+  --color-mut: #6f6468;
+  --color-line: #e4dcd3;
+  --color-soft: #f1e9df;
+  --color-win: #2e8b57;
+  --color-warn-bg: #fff4d6;
+  --color-warn-line: #e9cf8a;
+  --color-salons: #5c0a3a;
+  --color-labos: #1f4e5f;
+  --color-recyclage: #3d5a2a;
+
+  --font-serif: Georgia, "Times New Roman", serif;
+  --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+:root {
+  /* Accent par défaut ; chaque outil surcharge --a */
+  --a: #5c0a3a;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font: 15px/1.45 var(--font-sans);
+}
+
+a {
+  color: var(--a);
+}
+
+:focus-visible {
+  outline: 2px solid var(--a);
+  outline-offset: 2px;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
