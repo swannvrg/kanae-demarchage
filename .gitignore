@@ -1,0 +1,5 @@
+# Caches Next.js / dépendances (le projet est dans web/)
+.next/
+node_modules/
+.vercel
+.env*
